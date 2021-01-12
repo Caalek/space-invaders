@@ -17,6 +17,7 @@ document.addEventListener('keyup', playerStopMovement, false)
 let invaders = []
 let bullets = []
 let invaderBullets = []
+let lastShoot = new Date()
 
 player = new Player(620, 680, playerWidth, playerHeight)
 
@@ -96,12 +97,13 @@ function playerMovement(e) {
         xChange = player.speed
     } else if (e.keyCode == '65' || e.keyCode == '37') {
         xChange = -1 * player.speed
-    } else if (e.keyCode == '32') {
+    } else if (e.keyCode == '32' && new Date() - lastShoot >= 175) {
         const bullet = new Bullet(player.x + playerWidth / 2 , player.y + playerHeight / 2, bulletHeight, bulletWidth)
         shootEffect = new Audio('assets/audio/shoot.mp3')
         shootEffect.volume = 0.3
         shootEffect.play()
         bullets.push(bullet)
+        lastShoot = new Date()
     }
 }
 
