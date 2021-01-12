@@ -45,7 +45,7 @@ function update() {
     drawPoints()
     drawLives()
     drawHighScore()
-    //invaderShooting()
+    invaderShooting()
     drawAndMoveInvaderBullets()
     checkInvaderCollision()
     drawAndMoveBullets()
