@@ -99,6 +99,7 @@ function playerMovement(e) {
     } else if (e.keyCode == '32') {
         const bullet = new Bullet(player.x + playerWidth / 2 , player.y + playerHeight / 2, bulletHeight, bulletWidth)
         shootEffect = new Audio('assets/audio/shoot.mp3')
+        shootEffect.volume = 0.3
         shootEffect.play()
         bullets.push(bullet)
     }
@@ -205,6 +206,9 @@ function checkInvaderCollision() {
                 bullets[j].y < invaders[i].y + invaders[i].height &&
                 bullets[j].y + bullets[j].height > invaders[i].y &&
                 bullets[j].isVisible == true) {
+                    const killedEffect = new Audio('assets/audio/killed.mp3')
+                    killedEffect.volume = 0.5
+                    killedEffect.play()
                     bullets[j].isVisible = false
                     invaders[i].isAlive = false
                     points += 10
@@ -248,9 +252,7 @@ function drawHighScore() {
     ctx.font = `20px 'Press Start 2P', cursive`
     ctx.fillStyle = 'white'
     let highScore = sessionStorage.getItem('highScore')
-    if (highScore === null) {
-        highScore = 0
-    }
+    if (highScore === null) { highScore = 0 }
     ctx.fillText(`High score: ${highScore}`, 300, 50)
 }
 
@@ -266,14 +268,8 @@ function drawLives() {
 }
 
 function checkBorderCollision() {
-    if (player.x <= 0) {
-        console.log('left colission')
-        player.x = 1
-    }
-    else if (player.x >= canvas.width - player.width * 2) {
-        console.log('right collision')
-        player.x = canvas.width - player.width * 2 - 1
-    }
+    if (player.x <= 0) { player.x = 1 }
+    else if (player.x >= canvas.width - player.width * 2) { player.x = canvas.width - player.width * 2 - 1 }
 }
 
 initGame()
