@@ -11,15 +11,83 @@ const bulletWidth = 17
 let direction = 'right'
 let xChange = 0;
 let points = 0
-document.addEventListener('keydown', playerMovement, false)
-document.addEventListener('keyup', playerStopMovement, false)
-
 let invaders = []
 let bullets = []
 let invaderBullets = []
 let lastShoot = new Date()
-
 player = new Player(620, 680, playerWidth, playerHeight)
+
+document.addEventListener('keydown', e => {
+    if (e.code== 'KeyD' || e.key == 'ArrowRight') {
+        xChange = player.speed
+    } else if (e.code == 'KeyA' || e.code == 'ArrowLeft') {
+        xChange = -1 * player.speed
+    } else if (e.code == 'Space' && new Date() - lastShoot >= 175) {
+        const bullet = new Bullet(player.x + playerWidth / 2 , player.y + playerHeight / 2, bulletHeight, bulletWidth)
+        shootEffect = new Audio('assets/audio/shoot.mp3')
+        shootEffect.volume = 0.3
+        shootEffect.play()
+        bullets.push(bullet)
+        lastShoot = new Date()
+    }
+})
+
+document.addEventListener('keyup', e => {
+    if (e.code == 'KeyD' || e.code == 'ArrowRight') {
+        xChange = 0
+    } else if (e.code == 'KeyA' || e.code == 'ArrowLeft') {
+        xChange = 0
+    }
+})
+
+function Player(x, y, height, width) {
+    this.x = x
+    this.y = y
+    this.height = height
+    this.width = width
+    this.isAlive = true
+    this.speed = 2
+    this.lives = 3
+    this.image = new Image()
+    this.image.src = 'assets/images/player.png'
+
+}
+
+function Invader(x, y, height, width) {
+    this.x = x
+    this.y = y
+    this.height = height
+    this.width = width
+    this.isAlive = true
+    this.speed = 0.2
+
+    const invaderImages = ['invader.png', 'invader2.png', 'invader3.png']
+    const randomImage = invaderImages[Math.floor(Math.random() * invaderImages.length)]
+    this.image = new Image()
+    this.image.src = `assets/images/${randomImage}`
+}
+
+function Bullet(x, y, height, width) {
+    this.x = x
+    this.y = y
+    this.height = height
+    this.width = width
+    this.isVisible = true
+    this.speed = 5
+    this.image = new Image()
+    this.image.src = 'assets/images/bullet.png'
+}
+
+function InvaderBullet(x, y, height, width) {
+    this.x = x
+    this.y = y
+    this.height = height
+    this.width = width
+    this.isVisible = true
+    this.speed = 4
+    this.image = new Image()
+    this.image.src = 'assets/images/bullet.png'
+}
 
 function initGame() {
     let x = 75
@@ -90,78 +158,6 @@ function update() {
         clearInterval(gameRunning)
     
     }
-}
-
-function playerMovement(e) {
-    if (e.keyCode == '68' || e.keyCode == '39') {
-        xChange = player.speed
-    } else if (e.keyCode == '65' || e.keyCode == '37') {
-        xChange = -1 * player.speed
-    } else if (e.keyCode == '32' && new Date() - lastShoot >= 175) {
-        const bullet = new Bullet(player.x + playerWidth / 2 , player.y + playerHeight / 2, bulletHeight, bulletWidth)
-        shootEffect = new Audio('assets/audio/shoot.mp3')
-        shootEffect.volume = 0.3
-        shootEffect.play()
-        bullets.push(bullet)
-        lastShoot = new Date()
-    }
-}
-
-function playerStopMovement(e) {
-    if (e.keyCode == '68' || e.keyCode == '39') {
-        xChange = 0
-    } else if (e.keyCode == '65' || e.keyCode == '37') {
-        xChange = 0
-    }
-}
-
-function Player(x, y, height, width) {
-    this.x = x
-    this.y = y
-    this.height = height
-    this.width = width
-    this.isAlive = true
-    this.speed = 2
-    this.lives = 3
-    this.image = new Image()
-    this.image.src = 'assets/images/player.png'
-
-}
-
-function Invader(x, y, height, width) {
-    this.x = x
-    this.y = y
-    this.height = height
-    this.width = width
-    this.isAlive = true
-    this.speed = 0.2
-
-    const invaderImages = ['invader.png', 'invader2.png', 'invader3.png']
-    const randomImage = invaderImages[Math.floor(Math.random() * invaderImages.length)]
-    this.image = new Image()
-    this.image.src = `assets/images/${randomImage}`
-}
-
-function Bullet(x, y, height, width) {
-    this.x = x
-    this.y = y
-    this.height = height
-    this.width = width
-    this.isVisible = true
-    this.speed = 5
-    this.image = new Image()
-    this.image.src = 'assets/images/bullet.png'
-}
-
-function InvaderBullet(x, y, height, width) {
-    this.x = x
-    this.y = y
-    this.height = height
-    this.width = width
-    this.isVisible = true
-    this.speed = 4
-    this.image = new Image()
-    this.image.src = 'assets/images/bullet.png'
 }
 
 function drawInvaders() {
@@ -275,4 +271,4 @@ function checkBorderCollision() {
 }
 
 initGame()
-gameRunning = setInterval(update, 10)
+const gameRunning = setInterval(update, 10)
