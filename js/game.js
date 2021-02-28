@@ -124,8 +124,8 @@ function update() {
 
     if (invaders.length === 0) {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        document.removeEventListener('keydown', playerMovement, false)
-        document.removeEventListener('keyup', playerStopMovement, false)
+        //document.removeEventListener('keydown', playerMovement, false)
+        //document.removeEventListener('keyup', playerStopMovement, false)
         ctx.fillStyle = 'white'
         ctx.textAlign = 'center'
         ctx.font = `68px 'Press Start 2P', cursive`
@@ -141,8 +141,8 @@ function update() {
     if (player.lives <= 0) {
         player.isAlive = false
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        document.removeEventListener('keydown', playerMovement, false)
-        document.removeEventListener('keyup', playerStopMovement, false)
+        //document.removeEventListener('keydown', playerMovement, false)
+        //document.removeEventListener('keyup', playerStopMovement, false)
         ctx.fillStyle = 'white'
         ctx.textAlign = 'center'
         ctx.font = `68px 'Press Start 2P', cursive`
